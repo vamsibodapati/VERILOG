@@ -1,0 +1,48 @@
+module ha(input a,input b,output sum,output c_out);
+  assign sum = a^b;
+  assign c_out = a&b;
+endmodule
+ module fa(input a,input b,input cin,output sum,output c_out);
+  assign sum=a^b^cin;
+  assign c_out= a&b | b&cin | cin&a;
+ endmodule
+module mul(input [3:0]A,input [3:0]B,output [7:0]P);
+  wire po,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15;
+  wire s2,s1,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12;
+  assign po = A[0] & B[0];
+  assign p1 = A[1] & B[0];
+  assign p2 = A[2] & B[0];
+  assign p3 = A[3] & B[0];
+  assign p4 = A[0] & B[1];
+  assign p5 = A[1] & B[1];
+  assign p6 = A[2] & B[1];
+  assign p7 = A[3] & B[1];
+  assign p8 = A[0] & B[2];
+  assign p9 = A[1] & B[2];
+  assign p10 = A[2] & B[2];
+  assign p11 = A[3] & B[2];
+  assign p12 = A[0] & B[3];
+  assign p13 = A[1] & B[3];
+  assign p14 = A[2] & B[3];
+  assign p15 = A[3] & B[3];
+  ha ha1(.a(p1),.b(p4),.sum(s1),.c_out(c1));
+  fa fa1(.a(p2),.b(p5),.cin(c1),.sum(s2),.c_out(c2));
+  fa fa2(.a(p3),.b(p6),.cin(c2),.sum(s3),.c_out(c3));
+  ha ha2(.a(p7),.b(c3),.sum(s4),.c_out(c4));
+  ha ha3(.a(p8),.b(s2),.sum(s5),.c_out(c5));
+  fa fa3(.a(p9),.b(s3),.cin(c5),.sum(s6),.c_out(c6));
+  fa fa4(.a(p10),.b(s4),.cin(c6),.sum(s7),.c_out(c7));
+  fa fa5(.a(p11),.b(c4),.cin(c7),.sum(s8),.c_out(c8));
+  ha ha4(.a(p12),.b(s6),.sum(s9),.c_out(c9));
+  fa fa6(.a(p13),.b(s7),.cin(c9),.sum(s10),.c_out(c10));
+  fa fa7(.a(p14),.b(s8),.cin(c10),.sum(s11),.c_out(c11));
+  fa fa8(.a(p15),.b(c8),.cin(c11),.sum(s12),.c_out(c12));
+  assign P[0] = po;
+  assign P[1] = s1;
+  assign P[2] = s5;
+  assign P[3] = s9;
+  assign P[4] = s10;
+  assign P[5] = s11;
+  assign P[6] = s12;
+  assign P[7] = c12;
+endmodule
